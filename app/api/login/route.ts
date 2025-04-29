@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from 'next/headers';
-import { createClient } from "../utils/supabase/client";
+import { createClient } from "../../utils/supabase/server";
 
 export async function POST(request: Request) {
     
@@ -22,6 +22,8 @@ export async function POST(request: Request) {
         let { data: users, error } = await supabase
             .from('users')
             .select('*')
+
+            console.log("test :",users)
         
         if (error) {
             return NextResponse.json(
@@ -37,7 +39,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const matchedUser = users.find((user) => user.username === username);
+        const matchedUser = users.find((user:any) => user.username === username);
 
         if(matchedUser && matchedUser.password === password) {
             // Create response
@@ -59,7 +61,7 @@ export async function POST(request: Request) {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',
-                maxAge: 60 * 60 * 24, // 24 hours
+                maxAge: 60 * 60 * 1, // 24 hours
                 path: '/'
             });
 
@@ -79,3 +81,11 @@ export async function POST(request: Request) {
         );
     }
 }
+
+//get
+
+
+//put
+
+
+//delete
