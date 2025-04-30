@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { cookies } from 'next/headers';
 import { createClient } from "../../utils/supabase/server";
 
@@ -17,6 +17,7 @@ export async function POST(request: Request) {
 
 
     try {
+        console.log("request : ", await request.json())
         const { username, password } = await request.json();
 
         let { data: users, error } = await supabase

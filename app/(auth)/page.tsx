@@ -4,7 +4,6 @@ import LandingPage from './components/landingpage'
 function page() {
   return (
     <div>
-
         <LandingPage />
     </div>
   )

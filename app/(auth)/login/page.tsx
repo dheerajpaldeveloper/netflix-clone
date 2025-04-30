@@ -7,7 +7,7 @@ export default function Page() {
 
  const handleLogin = async (e: any) => {
   e.preventDefault();
-  console.log(username, password)
+  console.log("username : ",username, password)
 
   try {
     const res = await fetch("/api/login",{
@@ -17,11 +17,8 @@ export default function Page() {
       },
       body: JSON.stringify({username, password})
     })
-    console.log("user not login :",res)
-
     if(!res.ok){
-      const response = await res.json();
-      console.log("user not login 1:",response)
+      console.log("user not success :")
     }else{
       console.log("user login successfully")
       window.location.href = '/home'
@@ -32,8 +29,8 @@ export default function Page() {
  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 flex-col">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-full max-w-sm ">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
 
         <label className="block mb-2">
@@ -64,23 +61,7 @@ export default function Page() {
         >
           Login
         </button>
-      
-
-        
       </form>
-
-      <p>Or</p>
-
-        <a href="./signup">
-
-        <button
-                  
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded my-2"
-                >
-                  sign up
-                </button>
-        </a>
-      
     </div>
   );
 }
