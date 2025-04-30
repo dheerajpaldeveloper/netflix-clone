@@ -4,9 +4,11 @@ import React, { useState } from "react";
 export default function SignUpPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showMessage, setShowMessage] = useState("")
 
   const handleSignUp = async (e: any) => {
     e.preventDefault();
+    console.log("username and password : ",username, password)
     try {
       const res = await fetch("/api/signup", {
         method: "POST",
@@ -17,9 +19,13 @@ export default function SignUpPage() {
       });
 
       if (!res.ok) {
-        const data = await res.json();
-        console.log("Sign up failed:", data);
-      } else {
+        setShowMessage("User already exist")
+        setTimeout(() => {
+          setShowMessage('')
+        }, 4000);
+        setUsername("");
+        setPassword("");
+      } else if(res.ok) {
         console.log("Sign up successful");
         window.location.href = "/home";
       }
@@ -54,7 +60,7 @@ export default function SignUpPage() {
           <div className="mb-4">
             <input
               type="text"
-              placeholder="Email or phone number"
+              placeholder="username"
               className="w-full p-3 bg-[#333] text-white rounded focus:outline-none"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -72,7 +78,9 @@ export default function SignUpPage() {
               required
             />
           </div>
-
+          <div className="mb-2">
+            <span>{showMessage}</span>
+          </div>
           <button
             type="submit"
             className="w-full bg-[rgb(229,9,20)] hover:bg-red-800 text-white font-semibold py-3 rounded"
