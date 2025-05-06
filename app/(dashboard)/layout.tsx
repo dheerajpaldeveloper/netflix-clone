@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import { isAuthenticated } from "../utils/session";
 import { redirect } from "next/navigation";
+import Sidebar from "./components/sidebar/page";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,16 +16,16 @@ export default async function DashboardLayout({
 }>) {
   const isAuth = await isAuthenticated();
 
-  if(!isAuth){
-    redirect('/login')
+  if (!isAuth) {
+    redirect("/login");
   }
-  
+
   return (
-    <div>
-      {/* //header  */}
-      {/* sidebar */}
-      {children}
+    <div className="flex h-screen">
+      <div className="w-1/12 bg-green-400">
+        <Sidebar />
+      </div>
+      <div className="w-full">{children}</div>
     </div>
-    
   );
 }
