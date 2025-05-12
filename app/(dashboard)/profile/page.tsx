@@ -6,6 +6,7 @@ import { FaTwitter } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { RiGithubFill } from "react-icons/ri";
 import { NextResponse } from "next/server";
+import { IoCloseSharp } from "react-icons/io5";
 
 export default function page() {
   const [data, setData] = useState<[]>([]);
@@ -14,10 +15,14 @@ export default function page() {
   const [profile, setProfile] = useState(false);
   const [profileUsername, setProfileUsername] = useState<string>("");
   const [profileRole, setProfileRole] = useState<string>("");
+  const [id, setId] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
     const storeRole = localStorage.getItem("role");
+    const storeId = localStorage.getItem("id");
 
     if (storedUsername) {
       setUsername(storedUsername);
@@ -25,11 +30,15 @@ export default function page() {
     if (storeRole) {
       setRole(storeRole);
     }
+    if (storeId) {
+      setId(storeId);
+    }
   }, []);
 
   useEffect(() => {
     const fetchProfileData = async () => {
       const storedUsername = localStorage.getItem("username");
+
       try {
         const profileResonse = await fetch("/api/profile", {
           method: "GET",
@@ -38,21 +47,16 @@ export default function page() {
           },
         });
         if (!profileResonse.ok) {
-          // console.log("Failed to fetch user data")
           throw new Error("Failed to fetch user data");
         } else {
           const profileData = await profileResonse.json();
           const checkUser = profileData.data.find(
             (user: any) => user.username === storedUsername
           );
-          console.log("checkUser username :", checkUser.username);
-          console.log("checkUser role :", checkUser.role);
           setProfileUsername(checkUser.username);
           setProfileRole(checkUser.role);
-          // console.log("profileData fetch : ", profileData);
         }
       } catch (error) {
-        console.error("Error processing login request:", error);
         return NextResponse.json(
           { success: false, message: "Internal server error" },
           { status: 500 }
@@ -73,7 +77,6 @@ export default function page() {
         if (!res.ok) throw new Error("Failed to fetch user data");
 
         const result = await res.json();
-        // console.log("result : ", result);
         setData(result.data || []);
       } catch (err: any) {
         console.log(err.message || "Something went wrong");
@@ -86,28 +89,44 @@ export default function page() {
   function handleEditProfile() {
     setProfile(!profile);
   }
+  function closeProfileButton() {
+    setProfile(!profile);
+  }
+
   const handleProfileForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formdata = new FormData(e.currentTarget);
-    const profileUsername = formdata.get("profileUsername") as string;
-    const profileRole = formdata.get("profileRole") as string;
-    console.log("profileUsername : ", profileUsername);
-    console.log("profileRole : ", profileRole);
+    const form = e.currentTarget;
+    const formdata = new FormData();
+
+    // Append values manually
+    const profileUsername = form.profileUsername.value;
+    const profileRole = form.profileRole.value;
+
+    formdata.append("profileUsername", profileUsername);
+    formdata.append("profileRole", profileRole);
+    formdata.append("id", id);
+    
+    if (file) {
+      formdata.append("profilePic", file);
+    }
+    console.log("file : ",file)
 
     try {
       const res = await fetch("/api/profileupdate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profileUsername, profileRole }),
+        body: formdata,
       });
-      setProfileUsername(profileUsername ?? "");
-      setProfileRole(profileRole ?? "");
-      if(!res.ok){
-        console.log("error")
+      if (!res.ok) {
+        console.log("Error uploading data");
+      } else {
+        setProfileUsername(profileUsername);
+        setProfileRole(profileRole);
+        setProfile(false)
       }
     } catch (error) {
-      console.log("catch error",error)
+      console.log("catch error", error);
     }
+      setProfile(!profile);
   };
   return (
     <div className="flex flex-col mx-28 my-12 h-[100%]">
@@ -134,9 +153,17 @@ export default function page() {
           {profile && (
             <div className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[50%] max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl p-6 z-50">
               <form onSubmit={handleProfileForm}>
-                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-                  Edit Profile
-                </h2>
+                <div className="flex justify-between">
+                  <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                    Edit Profile
+                  </h2>
+                  <span
+                    className="flex items-center text-xl border px-2 py-1 rounded-sm shadow hover:bg-gray-100 transition"
+                    onClick={closeProfileButton}
+                  >
+                    <IoCloseSharp />
+                  </span>
+                </div>
 
                 {/* Username Field */}
                 <div className="mb-4">
@@ -168,6 +195,24 @@ export default function page() {
                     <option value="user">User</option>
                   </select>
                 </div>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Upload picture
+                  </label>
+                  <input
+                    type="file"
+                    name="profilePic"
+                    onChange={(e) => {
+                      const selected = e.target.files?.[0] || null;
+                      setFile(selected);
+                      if (selected) {
+                        const url = URL.createObjectURL(selected);
+                        setPreviewUrl(url);
+                      }
+                    }}
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
 
                 {/* Submit Button */}
                 <div className="flex justify-end">
@@ -188,7 +233,17 @@ export default function page() {
           <div className="absolute border-2 left-1/2 top-[0%] transform -translate-x-1/2 -translate-y-1/2 z-10 bg-white rounded-full w-40 h-40 flex items-center justify-center">
             {/* Hidden file input */}
             <input type="file" id="avatar-upload" className="hidden" />
-
+             {/* Show preview image */}
+              {previewUrl ? (
+                <img
+                  src={previewUrl}
+                  alt="Profile Preview"
+                  className="w-full h-full object-cover rounded-full zoom-in-100"
+                />
+              ) : (
+                // Optional: default placeholder
+                <span className="text-gray-400">No Image</span>
+              )}
             {/* Camera Icon - Positioned at bottom right of avatar */}
             <label
               htmlFor="avatar-upload"
@@ -206,8 +261,14 @@ export default function page() {
                 className="w-2xs rounded-md border-2 pl-1"
                 placeholder="username"
               /> */}
-              <div className="border px-4 rounded-sm bg-gray-600 text-gray-50"><span className="font-light text-md">Username: </span>{username}</div>
-              <div className="border px-4 rounded-sm bg-gray-600 text-gray-50"><span className="font-light text-md">Role: </span>{role}</div>
+              <div className="border px-4 rounded-sm bg-gray-600 text-gray-50">
+                <span className="font-light text-md">Username: </span>
+                {username}
+              </div>
+              <div className="border px-4 rounded-sm bg-gray-600 text-gray-50">
+                <span className="font-light text-md">Role: </span>
+                {role}
+              </div>
             </div>
             <div className="flex flex-col justify-center items-center mt-6">
               <h1 className="font-light">About me</h1>

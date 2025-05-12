@@ -38,7 +38,7 @@ export default function Header() {
   }
 
   return (
-    <div className="flex pt-4 justify-between px-4 items-center">
+    <div className="flex py-4 justify-between px-4 items-center">
       {/* Search bar */}
       <div className="flex space-x-4">
         <div className="flex items-center lg:hidden md:hidden">

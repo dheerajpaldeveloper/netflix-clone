@@ -51,7 +51,6 @@ export default function Page() {
         if (!res.ok) throw new Error("Failed to fetch channel data");
 
         const result = await res.json();
-        console.log("channel result:", result);
         setChannelsData(result.data || []);
       } catch (err: any) {
         console.log(err.message || "Something went wrong");
@@ -62,13 +61,13 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="flex flex-col border-black border-2 m-6 overflow-y-auto">
+    <div className="flex flex-col m-6 overflow-y-auto">
       {/* Total Views and Users */}
       <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 mb-4">
         {data.map((user) => (
           <div
             key={user.id}
-            className="bg-white border-2 border-red-800 shadow-3xl p-4"
+            className="bg-white border rounded-sm shadow-sm p-4 py-8"
           >
             <p className="text-xs font-bold text-blue-600">{user.id}</p>
             <p className="text-xl text-gray-500 mt-2 break-words">
@@ -79,55 +78,68 @@ export default function Page() {
       </div>
 
       {/* Graph and Bar */}
-      <div className="flex md:grid-cols-1 lg:grid-cols-2 gap-4 border-2 border-amber-950 h-[400px] p-4 mb-4">
-        <div className="flex w-full border-2 border-green-800 items-center justify-center">
+      <div className="grid md:grid-cols-[60%_40%] grid-cols-1 gap-4 h-[500px] p-4 mb-4">
+        <div className="flex w-full bg-gray-50 items-center shadow-sm justify-center">
           Total Revenue
         </div>
-        <div className="flex w-[60%] border-2 border-green-800 items-center justify-center">
+        <div className="flex w-full bg-gray-50 items-center shadow-sm justify-center">
           Profit this week
         </div>
       </div>
 
+
       {/* Map */}
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 border-2 border-amber-950 h-[400px] p-4 mb-4">
-        <div className="grid w-full border-2 border-green-800 items-center justify-center">
+      <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-4 h-[500px] p-4 mb-4">
+        <div className="grid w-full bg-gray-50 items-center shadow-sm justify-center">
           Visitors Analytics
         </div>
-        <div className="grid w-[100%]  border-2 border-green-800 items-center justify-center">
+        <div className="grid w-[100%] bg-gray-50 items-center shadow-sm justify-center">
           Region labels
         </div>
       </div>
 
       {/* Channels and Chats */}
-      <div className="flex gap-4 border-2 border-amber-950 h-[400px] p-4 mb-4">
-        <div className="flex w-full border-2 border-green-800">
-        <table className="w-full border border-green-900 rounded-4xl">
-          <thead>
-            <tr>
-              <th className="border border-green-900">ID</th>
-              <th className="border border-green-900">SOURCE</th>
-              <th className="border border-green-900">VISITORS</th>
-              <th className="border border-green-900">REVENUES</th>
-              <th className="border border-green-900">SALES</th>
-              <th className="border border-green-900">CONVERSION</th>
-            </tr>
-          </thead>
-          <tbody>
-            {channelsData.map((channel) => (
-              <tr key={channel.id}>
-                <td className="border border-green-900">{channel.id}</td>
-                <td className="border border-green-900">{channel.source}</td>
-                <td className="border border-green-900">{channel.visitors}</td>
-                <td className="border border-green-900">{channel.revenues}</td>
-                <td className="border border-green-900">{channel.sales}</td>
-                <td className="border border-green-900">{channel.conversion}</td>
+      <div className="grid md:grid-cols-[60%_40%] grid-cols-1 gap-4 h-[500px] p-4 mb-4">
+        <div className="flex w-full bg-gray-50 shadow-sm justify-center sm:overflow-x-auto md:overflow-x-auto">
+          <table className="w-full rounded-4xl">
+            <thead>
+              <tr>
+                <th className="bg-[#ecf1f6] py-4 font-light">ID</th>
+                <th className="bg-[#ecf1f6] font-light">SOURCE</th>
+                <th className="bg-[#ecf1f6] font-light">VISITORS</th>
+                <th className="bg-[#ecf1f6] font-light">REVENUES</th>
+                <th className="bg-[#ecf1f6] font-light">SALES</th>
+                <th className="bg-[#ecf1f6] font-light">CONVERSION</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {channelsData.map((channel) => (
+                <tr key={channel.id}>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.id}
+                  </td>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.source}
+                  </td>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.visitors}
+                  </td>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.revenues}
+                  </td>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.sales}
+                  </td>
+                  <td className="px-4 py-2 border-t text-center">
+                    {channel.conversion}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="flex w-[60%] border-2 border-green-800 items-center justify-center">
-            chats
+        <div className="flex w-full bg-gray-50 items-center justify-center shadow-sm">
+          chats
         </div>
       </div>
     </div>

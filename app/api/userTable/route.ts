@@ -27,10 +27,8 @@ export async function GET(request: Request) {
 
     // ✅ Return the users on success
     const getData = userData.map(user => user.totalUsers)
-    // console.log("userData : ",getData)
     return NextResponse.json({ success: true, data: userData }, { status: 200 });
   } catch (error: any) {
-    console.error("[API /api/users] Error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

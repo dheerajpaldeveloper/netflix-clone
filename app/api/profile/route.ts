@@ -15,7 +15,6 @@ export async function GET(request: Request) {
         { status: 500 }
       );
     } else if (users) {
-      // console.log("users : ",users)
       return NextResponse.json({ success: true, data: users }, { status: 200 });
     }
   } catch (error: any) {

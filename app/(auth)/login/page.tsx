@@ -12,7 +12,6 @@ export default function page() {
     const username = formData.get('username') as string;
     const password = formData.get('password') as string;
 
-    console.log("Test handle submit");
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -25,13 +24,10 @@ export default function page() {
       // Check if the response is ok
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Server error:', errorText);
         throw new Error(`Server error: ${response.status}`);
       }
 
-      const data = await response.json();
-      console.log("Response :", data.data.role);
-      
+      const data = await response.json();      
       if (!data.success) {
         setError(data.message || 'Invalid username or password');
       }
@@ -46,7 +42,6 @@ export default function page() {
         return;
       }
     } catch (error) {
-      console.error('Login error:', error);
       setError('Something went wrong. Please try again.');
     }
   }

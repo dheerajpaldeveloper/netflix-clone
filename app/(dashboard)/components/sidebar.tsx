@@ -17,7 +17,7 @@ export default function Sidebar() {
 
   return (
     <div className="flex flex-col justify-start text-start pt-4 w-64 bg-gray-800 min-h-screen overflow-y-hidden scrolbar-hidden">
-      <h1 className="flex justify-center text-3xl pb-8 text-gray-100 text-center">TailAdmin</h1>
+      <img src="./logo.svg" width={200} height={30}  className="flex justify-center pb-8 items-center text-gray-100 pl-4"></img>
 
       {/* Menu */}
       <h1 className="text-[#8a99af] pl-6 pb-2">MENU</h1>

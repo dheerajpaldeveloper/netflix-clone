@@ -72,7 +72,6 @@ export async function POST(request: Request) {
         }
 
     } catch (error: any) {
-        console.error('[API /api/login] Error processing login request:', error);
         return NextResponse.json(
             { success: false, message: 'Internal server error' },
             { status: 500 }
