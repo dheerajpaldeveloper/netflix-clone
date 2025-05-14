@@ -21,6 +21,7 @@ export default function Header() {
   const [role, setRole] = useState<string | null>(null);
   const { setTheme } = useTheme();
   const [isIconVisible, setIsIconVisible] = useState(false);
+  const [messageIcon, setMessageIcon] = useState(false)
 
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
@@ -35,6 +36,9 @@ export default function Header() {
 
   function handleProfileIcon() {
     setIsIconVisible(!isIconVisible);
+  }
+  function handleMessageIcon(){
+    setMessageIcon(!messageIcon)
   }
 
   return (
@@ -84,9 +88,19 @@ export default function Header() {
           <Button variant="outline">
             <MdOutlineNotifications size={25} />
           </Button>
-          <Button variant="outline">
+          <Button onClick={handleMessageIcon} variant="outline">
             <MdOutlineMessage size={25} />
           </Button>
+            {messageIcon && (
+               <div className="absolute right-0 mt-2 mr-2 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg p-4 z-50">
+               <div className=" text-gray-800 dark:text-gray-100">
+                 message: 1
+               </div>
+               <div className=" text-gray-800 dark:text-gray-100">
+               message: 2
+               </div>
+             </div>
+            )}
         </div>
 
         {/* Username display */}
