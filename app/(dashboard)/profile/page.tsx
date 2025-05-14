@@ -23,6 +23,7 @@ export default function page() {
     const storedUsername = localStorage.getItem("username");
     const storeRole = localStorage.getItem("role");
     const storeId = localStorage.getItem("id");
+    const storeProfileUrl = localStorage.getItem("profilePic")
 
     if (storedUsername) {
       setUsername(storedUsername);
@@ -32,6 +33,9 @@ export default function page() {
     }
     if (storeId) {
       setId(storeId);
+    }
+    if(storeProfileUrl){
+      setPreviewUrl(storeProfileUrl)
     }
   }, []);
 
@@ -121,8 +125,8 @@ export default function page() {
       } else {
         const resData = await res.json();
         const imageUrl = resData.data[0]?.image_url;
-        localStorage.setItem("savedProfilePic",imageUrl);
-        const savedPic = localStorage.getItem("savedProfilePic");
+        localStorage.setItem("profilePic",imageUrl);
+        const savedPic = localStorage.getItem("profilePic");
         console.log("savedPic : ",savedPic)
         
         setProfileUsername(profileUsername);

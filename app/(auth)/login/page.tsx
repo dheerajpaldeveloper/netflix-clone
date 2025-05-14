@@ -32,12 +32,13 @@ export default function page() {
         setError(data.message || 'Invalid username or password');
       }
       if (response.ok) {
-        console.log("res data", data.data.username);
+        console.log("res data ====", data.data.image_url);
         
         localStorage.setItem("username", data.data.username);
         localStorage.setItem("email", data.data.email);
         localStorage.setItem("role", data.data.role);
         localStorage.setItem("id", data.data.id);
+        localStorage.setItem("profilePic", data.data.image_url);
         window.location.href = "/";
         return;
       }
