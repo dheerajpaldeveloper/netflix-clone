@@ -119,8 +119,15 @@ export default function page() {
       if (!res.ok) {
         console.log("Error uploading data");
       } else {
+        const resData = await res.json();
+        const imageUrl = resData.data[0]?.image_url;
+        localStorage.setItem("savedProfilePic",imageUrl);
+        const savedPic = localStorage.getItem("savedProfilePic");
+        console.log("savedPic : ",savedPic)
+        
         setProfileUsername(profileUsername);
         setProfileRole(profileRole);
+        setPreviewUrl(savedPic);
         setProfile(false)
       }
     } catch (error) {
@@ -205,10 +212,6 @@ export default function page() {
                     onChange={(e) => {
                       const selected = e.target.files?.[0] || null;
                       setFile(selected);
-                      if (selected) {
-                        const url = URL.createObjectURL(selected);
-                        setPreviewUrl(url);
-                      }
                     }}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />

@@ -1,116 +1,125 @@
 'use client'
-import React, { useState } from "react";
+import React from "react";
 import { RxDashboard } from "react-icons/rx";
-import { MdKeyboardArrowUp, MdKeyboardArrowDown, MdFormatListBulletedAdd, MdOutlineEmail } from "react-icons/md";
+import {
+  MdKeyboardArrowUp,
+  MdKeyboardArrowDown,
+  MdFormatListBulletedAdd,
+  MdOutlineEmail,
+} from "react-icons/md";
 import { FaRegCalendarDays, FaFileInvoiceDollar } from "react-icons/fa6";
-import { RiUserLine, RiPagesLine, RiPieChartLine, RiTableAltLine } from "react-icons/ri";
+import {
+  RiUserLine,
+  RiPagesLine,
+  RiPieChartLine,
+  RiTableAltLine,
+} from "react-icons/ri";
 import { BsListTask } from "react-icons/bs";
 import { BiTable } from "react-icons/bi";
 import { TbMessage } from "react-icons/tb";
 import { HiArrowRightEndOnRectangle } from "react-icons/hi2";
 
 export default function Sidebar() {
-  // const [toggle, setToggle] = useState(false);
-  // const toggleButton = () => {
-  //   setToggle(!toggle);
-  // };
-
   return (
-    <div className="flex flex-col justify-start text-start pt-4 w-64 bg-gray-800 min-h-screen overflow-y-hidden scrolbar-hidden">
-      <img src="./logo.svg" width={200} height={30}  className="flex justify-center pb-8 items-center text-gray-100 pl-4"></img>
+    <div className="flex flex-col justify-start text-start pt-4 w-64 min-h-screen overflow-y-hidden scrollbar-hidden">
+      <img
+        src="./logo.svg"
+        width={200}
+        height={30}
+        className="flex justify-center pb-8 items-center text-gray-100 pl-4"
+      />
 
       {/* Menu */}
       <h1 className="text-[#8a99af] pl-6 pb-2">MENU</h1>
       <div className="flex flex-col text-gray-100 space-y-1">
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        <a href="/" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <RxDashboard />
-            <a href="/">Dashboard</a>
-            {/* {toggle ? (<MdKeyboardArrowUp/>):(<MdKeyboardArrowDown/>)} */}
+            <p>Dashboard</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/calendar" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <FaRegCalendarDays />
-            <a href="/calendar">Calendar</a>
+            <p>Calendar</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/profile" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <RiUserLine />
-            <a href="/profile">Profile</a>
+            <p>Profile</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/task" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <BsListTask />
-            <a href="/task">Task</a>
+            <p>Task</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/forms" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <MdFormatListBulletedAdd />
-            <a href="/forms">Forms</a>
+            <p>Forms</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/tables" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <BiTable />
-            <a href="/tables">Tables</a>
+            <p>Tables</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/pages" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <RiPagesLine />
-            <a href="/pages">Pages</a>
+            <p>Pages</p>
           </div>
-        </div>
+        </a>
       </div>
 
       {/* Support */}
       <h1 className="text-[#8a99af] pl-6 pt-4 pb-2">SUPPORT</h1>
       <div className="flex flex-col text-gray-100 space-y-1">
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        <a href="/messages" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <TbMessage />
-            <a href="/messages">Messages</a>
+            <p>Messages</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/inbox" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <MdOutlineEmail />
-            <a href="/inbox">Inbox</a>
+            <p>Inbox</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/invoice" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <FaFileInvoiceDollar />
-            <a href="/invoice">Invoice</a>
+            <p>Invoice</p>
           </div>
-        </div>
+        </a>
       </div>
 
       {/* Others */}
       <h1 className="text-[#8a99af] pl-6 pt-4 pb-2">OTHERS</h1>
       <div className="flex flex-col text-gray-100 space-y-1 pb-6">
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        <a href="/charts" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <RiPieChartLine />
-            <a href="/charts">Charts</a>
+            <p>Charts</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/uielements" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <RiTableAltLine />
-            <a href="/uielements">UI Elements</a>
+            <p>UI Elements</p>
           </div>
-        </div>
-        <div className="hover:bg-neutral-600 py-2 cursor-pointer">
+        </a>
+        <a href="/authentication" className="hover:bg-neutral-600 py-2 cursor-pointer">
           <div className="flex items-center gap-2 pl-6">
             <HiArrowRightEndOnRectangle />
-            <a href="/authentication">Authentication</a>
+            <p>Authentication</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );
